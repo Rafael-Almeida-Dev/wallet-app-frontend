@@ -1,3 +1,87 @@
+const renderFinancesList = (data) => {
+  const table = document.getElementById("finances-table");
+  table.innerHTML = "";
+
+  const tableHeader = document.createElement("tr");
+
+  const titleText = document.createTextNode("Título");
+  const titleElement = document.createElement("th");
+  titleElement.appendChild(titleText);
+  tableHeader.appendChild(titleElement);
+
+  const categoryText = document.createTextNode("Categoria");
+  const categoryElement = document.createElement("th");
+  categoryElement.appendChild(categoryText);
+  tableHeader.appendChild(categoryElement);
+
+  const dateText = document.createTextNode("Data");
+  const dateElement = document.createElement("th");
+  dateElement.appendChild(dateText);
+  tableHeader.appendChild(dateElement);
+
+  const valueText = document.createTextNode("Valor");
+  const valueElement = document.createElement("th");
+  valueElement.className = "center";
+  valueElement.appendChild(valueText);
+  tableHeader.appendChild(valueElement);
+
+  const actionText = document.createTextNode("Ação");
+  const actionElement = document.createElement("th");
+  actionElement.className = "right";
+  actionElement.appendChild(actionText);
+  tableHeader.appendChild(actionElement);
+
+  table.appendChild(tableHeader);
+
+  data.map((item) => {
+    const tableRow = document.createElement("tr");
+
+    // title
+    const titleTd = document.createElement("td");
+    const titleText = document.createTextNode(item.title);
+    titleTd.appendChild(titleText);
+    tableRow.appendChild(titleTd);
+
+    // category
+    const categoryTd = document.createElement("td");
+    const categoryText = document.createTextNode(item.name);
+    categoryTd.appendChild(categoryText);
+    tableRow.appendChild(categoryTd);
+
+    // category
+    const dateTd = document.createElement("td");
+    const dateText = document.createTextNode(
+      new Date(item.date).toLocaleDateString()
+    );
+    dateTd.appendChild(dateText);
+    tableRow.appendChild(dateTd);
+
+    // value
+    const valueTd = document.createElement("td");
+    valueTd.className = "center";
+    const valueText = document.createTextNode(
+      new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }).format(item.value)
+    );
+    valueTd.appendChild(valueText);
+    tableRow.appendChild(valueTd);
+
+    // delete
+    const deleteTd = document.createElement("td");
+    deleteTd.style.cursor = "pointer";
+    deleteTd.onclick = () => onDeleteItem(item.id);
+    deleteTd.className = "right";
+    const deleteText = document.createTextNode("Deletar");
+    deleteTd.appendChild(deleteText);
+    tableRow.appendChild(deleteTd);
+
+    // table add tablerow
+    table.appendChild(tableRow);
+  });
+};
+
 const renderFinanceElements = (data) => {
   const totalItems = data.length;
   const revenues = data
@@ -104,6 +188,7 @@ const onLoadFinancesData = async () => {
     );
     const data = await result.json();
     renderFinanceElements(data);
+    renderFinancesList(data);
     return data;
   } catch (error) {
     return { error };
