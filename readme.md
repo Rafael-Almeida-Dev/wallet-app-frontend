@@ -1,7 +1,7 @@
 # Wallet App
 
 <img src=" https://github.com/Rafael-Almeida-Dev/wallet-app-frontend/blob/master/src/img/preview.png"
-alt= "Wallet Preview" height="500">
+alt= "Wallet Preview" height="228" width ="678">
 
 ## Introduction
 
